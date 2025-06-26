@@ -43,8 +43,8 @@ sudo systemctl restart vnstat
 ### 1. Clone or download the repository
 
 ```bash
-git clone https://github.com/username/netm-monitor.git
-cd netm-monitor
+git clone https://github.com/AwJHub/Network-Monitor.git
+cd netm
 ```
 
 or simply download the ZIP and extract it.
