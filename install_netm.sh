@@ -1,27 +1,20 @@
 #!/bin/bash
 
-INTERFACE="eth0"
-REPO_RAW_URL="https://github.com/username/netm-monitor/raw/main"
-
-# نصب پیش نیاز
+# نصب bc اگر نصب نیست
 if ! command -v bc &> /dev/null; then
-    echo "Installing bc..."
-    sudo apt update && sudo apt install -y bc
+  echo "Installing bc..."
+  sudo apt-get update
+  sudo apt-get install -y bc
 fi
 
-# دانلود اسکریپت اصلی netm.sh
-echo "Downloading netm.sh ..."
-curl -s -O "$REPO_RAW_URL/netm.sh" || { echo "Download failed!"; exit 1; }
+# دانلود اسکریپت اصلی netm.sh به /usr/local/bin/netm
+echo "Downloading netm.sh..."
+curl -s https://raw.githubusercontent.com/AwJHub/Network-Monitor/main/netm.sh -o /usr/local/bin/netm
+chmod +x /usr/local/bin/netm
 
-# کپی به /usr/local/bin
-sudo mv netm.sh /usr/local/bin/netm.sh
-sudo chmod +x /usr/local/bin/netm.sh
-
-# اضافه کردن alias به bashrc
-ALIAS_CMD="alias netm='/usr/local/bin/netm.sh'"
-if ! grep -Fxq "$ALIAS_CMD" ~/.bashrc; then
-    echo "$ALIAS_CMD" >> ~/.bashrc
-    echo "Alias added to ~/.bashrc"
+# اضافه کردن alias به bashrc اگر قبلا اضافه نشده
+if ! grep -q 'alias netm=' ~/.bashrc; then
+  echo "alias netm='/usr/local/bin/netm'" >> ~/.bashrc
 fi
 
-echo "Installation complete! Run 'netm' to start the monitor."
+echo "Installation done! Please run 'source ~/.bashrc' or open a new terminal."
